@@ -1,0 +1,14 @@
+[options]
+mode cover
+depth 10
+
+[engines]
+smtbmc
+
+[script]
+read -verific
+read -formal repetition.sv
+prep -top repetition
+
+[files]
+repetition.sv
