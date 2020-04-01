@@ -34,5 +34,9 @@ module repetition(input bit clk);
        assume (counter == 0);
      init <= 0;
    end
+
+
+  // TODO Add section about goto repetition?
+  // It might take a bit too long to explain.
    
 endmodule
