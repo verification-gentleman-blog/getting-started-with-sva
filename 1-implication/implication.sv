@@ -20,5 +20,10 @@ module implication(input bit clk);
    // Forces a fail of the implcation property to generate a trace
    assign consequent = 0;
    assert_overlapping_implication: assert property (overlapping_implication);
+
+
+   always @(posedge clk)
+     if (antecedent)
+       assert (consequent);
    
 endmodule
