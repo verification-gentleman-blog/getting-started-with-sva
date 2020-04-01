@@ -17,13 +17,26 @@ module implication(input bit clk);
    cover_overlapping_implication: cover property (overlapping_implication);
 
    // TODO Remove once 'cover' generates trace
+   assert_overlapping_implication: assert property (overlapping_implication);
+
    // Forces a fail of the implcation property to generate a trace
    assign consequent = 0;
-   assert_overlapping_implication: assert property (overlapping_implication);
 
 
    always @(posedge clk)
      if (antecedent)
        assert (consequent);
+
+
+   property nonoverlapping_implication;
+     antecedent |=> consequent;
+   endproperty
+
+
+   // FIXME Can't get this to cover
+   cover_nonoverlapping_implication: cover property (nonoverlapping_implication);
+
+   // TODO Remove once 'cover' generates trace
+   assert_nonoverlapping_implication: assert property (nonoverlapping_implication);
    
 endmodule
