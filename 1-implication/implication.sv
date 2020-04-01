@@ -38,5 +38,10 @@ module implication(input bit clk);
 
    // TODO Remove once 'cover' generates trace
    assert_nonoverlapping_implication: assert property (nonoverlapping_implication);
+
+
+  always @(posedge clk)
+     if ($past(antecedent))
+       assert (consequent);
    
 endmodule
