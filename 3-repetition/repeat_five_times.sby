@@ -1,0 +1,13 @@
+[options]
+mode cover
+
+[engines]
+smtbmc
+
+[script]
+read -verific
+read -formal repeat_five_times.sv
+prep -top repeat_five_times
+
+[files]
+repeat_five_times.sv
