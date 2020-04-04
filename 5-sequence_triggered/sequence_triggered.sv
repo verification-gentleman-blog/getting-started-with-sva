@@ -9,9 +9,7 @@ module sequence_triggered(input bit clk);
   bit cancel;
 
 
-  // Signals used in sequence have to be arguments, otherwise the tool will
-  // complain.
-  sequence accepted_request(bit request, bit accept, bit cancel);
+  sequence accepted_request;
     @(posedge clk)
     request ##1 (!cancel throughout accept [->1]);
   endsequence
@@ -25,7 +23,7 @@ module sequence_triggered(input bit clk);
 
 
   become_busy_only_due_to_accepted_request_trace: cover property (
-      $rose(busy) && accepted_request(request, accept, cancel).triggered);
+      $rose(busy) && accepted_request.triggered);
 
   
   // Makes the traces more interesting
