@@ -17,9 +17,8 @@ module sequence_triggered(input bit clk);
 
   bit busy;
   
-  // Causes a segmentation fault
-  //become_busy_only_due_to_accepted_request: assert property (
-  //    $rose(busy) |-> accepted_request.triggered);
+  become_busy_only_due_to_accepted_request: assert property (
+      $rose(busy) |-> accepted_request.triggered);
 
 
   become_busy_only_due_to_accepted_request_trace: cover property (
