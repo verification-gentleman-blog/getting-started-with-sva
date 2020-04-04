@@ -1,19 +1,24 @@
-module repeat_five_times(input bit clk);
-
-  bit a;
-   
+module repeat_five_times(
+    input bit clk,
+    input bit a,
+    output bit match
+    );
 
   int unsigned counter;
 
 
-  always @(posedge clk)
+  always_ff @(posedge clk)
     if (a && counter < 5-1)
       counter++;
     else
       counter = 0;
 
+
+  assign match = (counter == 5-1 && a);
+
+
   always @(posedge clk)
-    cover (counter == 5-1 && a);
+    cover (match);
 
 
   // Needed to initialize counter
