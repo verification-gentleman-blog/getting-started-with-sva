@@ -1,0 +1,13 @@
+[options]
+mode cover
+
+[engines]
+smtbmc
+
+[script]
+read -verific
+read -formal delay_three_cycles.sv
+prep -top delay_three_cycles
+
+[files]
+delay_three_cycles.sv
