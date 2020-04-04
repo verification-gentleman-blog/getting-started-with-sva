@@ -1,0 +1,14 @@
+[options]
+mode prove
+depth 10
+
+[engines]
+smtbmc
+
+[script]
+read -verific
+read -formal named_properties_and_sequences.sv
+prep -top named_properties_and_sequences
+
+[files]
+named_properties_and_sequences.sv
