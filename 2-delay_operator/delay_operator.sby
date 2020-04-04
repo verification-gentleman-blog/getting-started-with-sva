@@ -1,0 +1,13 @@
+[options]
+mode cover
+
+[engines]
+smtbmc
+
+[script]
+read -verific
+read -formal delay_operator.sv
+prep -top delay_operator
+
+[files]
+delay_operator.sv
