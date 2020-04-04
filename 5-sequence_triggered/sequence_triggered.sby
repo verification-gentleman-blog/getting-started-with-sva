@@ -1,0 +1,14 @@
+[options]
+mode cover
+depth 10
+
+[engines]
+smtbmc
+
+[script]
+read -verific
+read -formal sequence_triggered.sv
+prep -top sequence_triggered
+
+[files]
+sequence_triggered.sv
