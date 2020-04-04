@@ -1,7 +1,8 @@
 Top 5:
 
 1. implication
-2. repetition operators, especially goto repetition
-3. throughout
-4. named sequences
-5. sequence.matched
+2. delay operator
+3. regular and goto repetition
+4. throughout
+5. named properties and sequences
+6. sequence.triggered
