@@ -20,7 +20,19 @@ module sequence_triggered(input bit clk);
   
 
   // Causes a segmentation fault
-  become_busy_only_due_to_accepted_request: assert property (
-      $rose(busy) |-> accepted_request.triggered);
+  //become_busy_only_due_to_accepted_request: assert property (
+  //    $rose(busy) |-> accepted_request.triggered);
+
+  // Doesn't work as expected
+  //become_busy_only_due_to_accepted_request_trace: cover property (
+  //    $rose(busy) && accepted_request.triggered);
+
+  become_busy_only_due_to_accepted_request_trace: cover property (
+      accepted_request(request, accept, cancel) ##0 $rose(busy));
+
+  
+  // Makes the traces more interesting
+  some_delay_between_request_and_accept: assume property (
+      request |-> !accept [*4]);
   
 endmodule

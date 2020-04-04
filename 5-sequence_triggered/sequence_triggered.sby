@@ -1,5 +1,5 @@
 [options]
-mode prove
+mode cover
 depth 10
 
 [engines]
