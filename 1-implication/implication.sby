@@ -9,6 +9,7 @@ smtbmc
 read -verific
 read -formal implication.sv
 prep -top implication
+setparam -set consequent_val 1 implication
 
 [files]
 implication.sv

@@ -19,8 +19,11 @@ module implication(input bit clk);
    // TODO Remove once 'cover' generates trace
    assert_overlapping_implication: assert property (overlapping_implication);
 
+   // Parameter to control behavior via task/script
+   parameter bit consequent_val = 0;
+
    // Forces a fail of the implcation property to generate a trace
-   assign consequent = 0;
+   assign consequent = consequent_val;
 
 
    always @(posedge clk)
