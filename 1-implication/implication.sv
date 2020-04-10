@@ -24,12 +24,12 @@ module implication(input bit clk);
   parameter assert_kind = `ASSERT_KIND;
 
 
+  default clocking @(posedge clk);
+  endclocking
+
+
   if (implication_kind == OVERLAPPING) begin: overlapping
     if (assert_kind == CONCURRENT) begin: concurrent
-
-      default clocking @(posedge clk);
-      endclocking
-
 
       property overlapping_implication;
         antecedent |-> consequent;
