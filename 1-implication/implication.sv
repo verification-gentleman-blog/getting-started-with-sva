@@ -39,7 +39,7 @@ module implication(input bit clk);
 
       always @(posedge clk)
         if (antecedent)
-  	assert (consequent);
+          assert (consequent);
 
     end
   end
@@ -56,7 +56,7 @@ module implication(input bit clk);
 
       always @(posedge clk)
         if ($past(antecedent))
-    	assert (consequent);
+          assert (consequent);
 
     end
   end
