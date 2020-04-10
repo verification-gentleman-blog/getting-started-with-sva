@@ -31,22 +31,9 @@ module implication(input bit clk);
   if (implication_kind == OVERLAPPING) begin: overlapping
     if (assert_kind == CONCURRENT) begin: concurrent
 
-      property overlapping_implication;
-        antecedent |-> consequent;
-      endproperty
-
-
-      // FIXME Can't get this to cover
-      cover_overlapping_implication: cover property (overlapping_implication);
-
-      // TODO Remove once 'cover' generates trace
-      assert_overlapping_implication: assert property (overlapping_implication);
-
-      // Forces a fail of the implcation property to generate a trace
-      assign consequent = 0;
+      implication: assert property (antecedent |-> consequent);
 
     end
-
 
     if (assert_kind == IMMEDIATE) begin: immediate
 
@@ -61,19 +48,9 @@ module implication(input bit clk);
   if (implication_kind == NON_OVERLAPPING) begin: non_overlapping
     if (assert_kind == CONCURRENT) begin: concurrent
 
-      property nonoverlapping_implication;
-        antecedent |=> consequent;
-      endproperty
-
-
-      // FIXME Can't get this to cover
-      cover_nonoverlapping_implication: cover property (nonoverlapping_implication);
-
-      // TODO Remove once 'cover' generates trace
-      assert_nonoverlapping_implication: assert property (nonoverlapping_implication);
+      implication: assert property (antecedent |=> consequent);
 
     end
-
 
     if (assert_kind == IMMEDIATE) begin: immediate
 
