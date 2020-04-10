@@ -1,7 +1,8 @@
 [tasks]
-single
-single_a_repeats single a_repeats
-single_b_repeats single b_repeats
+single_concurrent single concurrent
+single_concurrent_a_repeats single_concurrent a_repeats
+single_concurrent_b_repeats single_concurrent b_repeats
+single_immediate single immediate
 multi
 multi_a_repeats multi a_repeats
 multi_b_repeats multi b_repeats
@@ -15,6 +16,8 @@ smtbmc
 [script]
 single: read -define DELAY_KIND=SINGLE
 multi: read -define DELAY_KIND=MULTI
+concurrent: read -define ASSERT_KIND=CONCURRENT
+immediate: read -define ASSERT_KIND=IMMEDIATE
 a_repeats: read -define A_REPEATS
 b_repeats: read -define B_REPEATS
 
