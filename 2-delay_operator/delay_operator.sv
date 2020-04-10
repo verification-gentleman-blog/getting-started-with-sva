@@ -23,4 +23,24 @@ module delay_operator(input bit clk);
 
   end
 
+
+  parameter bit a_repeats = 0;
+
+`ifdef A_REPEATS
+  defparam a_repeats = 1;
+`endif
+
+  if (a_repeats) begin
+
+    assume property ($rose(a) |=> a);
+
+    bit first_cycle = 1;
+
+    always @(posedge clk)
+      first_cycle <= 0;
+
+    assume property (first_cycle && a |-> $rose(a));
+
+  end
+
 endmodule

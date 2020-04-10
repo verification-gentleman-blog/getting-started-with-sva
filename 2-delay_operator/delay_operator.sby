@@ -1,6 +1,7 @@
 [tasks]
 single
 multi
+single_a_repeats single a_repeats
 
 [options]
 mode cover
@@ -11,6 +12,7 @@ smtbmc
 [script]
 single: read -define DELAY_KIND=SINGLE
 multi: read -define DELAY_KIND=MULTI
+a_repeats: read -define A_REPEATS
 
 read -verific
 read -formal delay_operator.sv
