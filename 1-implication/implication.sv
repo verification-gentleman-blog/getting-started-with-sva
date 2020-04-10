@@ -54,10 +54,33 @@ module implication(input bit clk);
 
     if (assert_kind == IMMEDIATE) begin: immediate
 
-      always @(posedge clk)
-        if ($past(antecedent))
-          assert (consequent);
+      typedef enum {
+        BUGGY,
+        CORRECT
+      } modeling_kind_e;
 
+      // XXX WORKAROUND Can't select parameter using '-chparam' in SBY file
+      parameter modeling_kind = `MODELING_KIND;
+
+      if (modeling_kind == BUGGY) begin: buggy
+
+        always @(posedge clk)
+          if ($past(antecedent))
+            assert (consequent);
+
+      end
+      if (modeling_kind == CORRECT) begin: correct
+
+        bit past_valid = 0;
+
+        always @(posedge clk)
+          past_valid <= 1;
+
+        always @(posedge clk)
+          if (past_valid && $past(antecedent))
+            assert (consequent);
+
+      end
     end
   end
 
