@@ -2,6 +2,7 @@
 single
 multi
 single_a_repeats single a_repeats
+single_b_repeats single b_repeats
 
 [options]
 mode cover
@@ -13,6 +14,7 @@ smtbmc
 single: read -define DELAY_KIND=SINGLE
 multi: read -define DELAY_KIND=MULTI
 a_repeats: read -define A_REPEATS
+b_repeats: read -define B_REPEATS
 
 read -verific
 read -formal delay_operator.sv

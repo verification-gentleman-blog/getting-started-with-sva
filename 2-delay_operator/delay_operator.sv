@@ -43,4 +43,16 @@ module delay_operator(input bit clk);
 
   end
 
+  parameter bit b_repeats = 0;
+
+`ifdef B_REPEATS
+  defparam b_repeats = 1;
+`endif
+
+  if (b_repeats) begin
+
+    assume property (b |-> $past(b));
+
+  end
+
 endmodule
