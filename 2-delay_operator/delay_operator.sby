@@ -1,8 +1,10 @@
 [tasks]
 single
-multi
 single_a_repeats single a_repeats
 single_b_repeats single b_repeats
+multi
+multi_a_repeats multi a_repeats
+multi_b_repeats multi b_repeats
 
 [options]
 mode cover
