@@ -1,3 +1,7 @@
+[tasks]
+single
+multi
+
 [options]
 mode cover
 
@@ -5,6 +9,9 @@ mode cover
 smtbmc
 
 [script]
+single: read -define DELAY_KIND=SINGLE
+multi: read -define DELAY_KIND=MULTI
+
 read -verific
 read -formal delay_operator.sv
 prep -top delay_operator

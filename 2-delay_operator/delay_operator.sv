@@ -8,10 +8,19 @@ module delay_operator(input bit clk);
   bit b;
 
 
-  a_followed_by_b_trace: cover property (
-      a ##1 b);
+  parameter enum { SINGLE, MULTI } delay_kind = `DELAY_KIND;
 
-  a_followed_by_b_after_3_cycles_trace: cover property (
-      a ##3 b);
+  if (delay_kind == SINGLE) begin: single
+
+    a_followed_by_b: cover property (
+        a ##1 b);
+
+  end
+  if (delay_kind == MULTI) begin: multi
+
+    a_followed_by_b_after_3_cycles: cover property (
+        a ##3 b);
+
+  end
 
 endmodule
