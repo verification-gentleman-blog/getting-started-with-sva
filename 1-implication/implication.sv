@@ -24,8 +24,8 @@ module implication(input bit clk);
   parameter assert_kind = `ASSERT_KIND;
 
 
-  if (implication_kind == OVERLAPPING) begin
-    if (assert_kind == CONCURRENT) begin
+  if (implication_kind == OVERLAPPING) begin: overlapping
+    if (assert_kind == CONCURRENT) begin: concurrent
 
       default clocking @(posedge clk);
       endclocking
@@ -48,7 +48,7 @@ module implication(input bit clk);
     end
 
 
-    if (assert_kind == IMMEDIATE) begin
+    if (assert_kind == IMMEDIATE) begin: immediate
 
       always @(posedge clk)
         if (antecedent)
@@ -58,8 +58,8 @@ module implication(input bit clk);
   end
 
 
-  if (implication_kind == NON_OVERLAPPING) begin
-    if (assert_kind == CONCURRENT) begin
+  if (implication_kind == NON_OVERLAPPING) begin: non_overlapping
+    if (assert_kind == CONCURRENT) begin: concurrent
 
       property nonoverlapping_implication;
         antecedent |=> consequent;
@@ -75,7 +75,7 @@ module implication(input bit clk);
     end
 
 
-    if (assert_kind == IMMEDIATE) begin
+    if (assert_kind == IMMEDIATE) begin: immediate
 
       always @(posedge clk)
         if ($past(antecedent))
