@@ -51,7 +51,10 @@ module delay_operator(input bit clk);
 
   if (b_repeats) begin
 
-    assume property (b |-> $past(b));
+    assume property ($rose(b) |=> b);
+
+    assume property (a ##1 b |=> !b);
+    assume property (a ##3 b |=> !b);
 
   end
 
