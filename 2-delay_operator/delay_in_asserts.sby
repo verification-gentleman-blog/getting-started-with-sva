@@ -1,0 +1,13 @@
+[options]
+mode prove
+
+[engines]
+smtbmc
+
+[script]
+read -verific
+read -formal delay_in_asserts.sv
+prep -top delay_in_asserts
+
+[files]
+delay_in_asserts.sv
