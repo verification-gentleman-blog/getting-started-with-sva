@@ -24,4 +24,17 @@ module delay_in_asserts(input bit clk);
 
   end
 
+
+  parameter bit a_after_c = 0;
+
+`ifdef A_AFTER_C
+  defparam a_after_c = 1;
+`endif
+
+  if (a_after_c) begin
+
+    assume property (c |=> a);
+
+  end
+
 endmodule
