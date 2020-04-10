@@ -7,6 +7,7 @@ smtbmc
 
 [script]
 read -verific
+read -define ASSERT_KIND=CONCURRENT
 read -formal implication.sv
 prep -top implication
 
