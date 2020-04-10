@@ -1,3 +1,9 @@
+[tasks]
+overlapping_concurrent overlapping concurrent
+overlapping_immediate overlapping immediate
+non_overlapping_concurrent non_overlapping concurrent
+non_overlapping_immediate non_overlapping immediate
+
 [options]
 mode prove
 depth 10
@@ -6,9 +12,12 @@ depth 10
 smtbmc
 
 [script]
+overlapping: read -define IMPLICATION_KIND=OVERLAPPING
+non_overlapping: read -define IMPLICATION_KIND=NON_OVERLAPPING
+concurrent: read -define ASSERT_KIND=CONCURRENT
+immediate: read -define ASSERT_KIND=IMMEDIATE
+
 read -verific
-read -define IMPLICATION_KIND=OVERLAPPING
-read -define ASSERT_KIND=CONCURRENT
 read -formal implication.sv
 prep -top implication
 
