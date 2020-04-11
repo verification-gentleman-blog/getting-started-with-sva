@@ -1,3 +1,7 @@
+[tasks]
+concurrent
+immediate
+
 [options]
 mode cover
 
@@ -5,6 +9,9 @@ mode cover
 smtbmc
 
 [script]
+concurrent: read -define ASSERT_KIND=CONCURRENT
+immediate: read -define ASSERT_KIND=IMMEDIATE
+
 read -verific
 read -formal repetition.sv
 prep -top repetition
