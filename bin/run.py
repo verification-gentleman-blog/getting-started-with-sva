@@ -3,16 +3,21 @@
 import click
 
 @click.group()
-def cli():
-    pass
+@click.argument('task')
+@click.pass_context
+def cli(ctx, task):
+    ctx.ensure_object(dict)
+    ctx.obj['task'] = task
 
 @cli.command()
-def sby():
-    click.echo('Running sby')
+@click.pass_context
+def sby(ctx):
+    click.echo('Running sby with task {}'.format(ctx.obj['task']))
 
 @cli.command()
-def gtkwave():
-    click.echo('Running gtkwave')
+@click.pass_context
+def gtkwave(ctx):
+    click.echo('Running gtkwave with task {}'.format(ctx.obj['task']))
 
 if __name__ == '__main__':
     cli()
