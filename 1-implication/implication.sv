@@ -4,24 +4,13 @@ module implication(input bit clk);
   bit consequent;
 
 
-  typedef enum {
-    OVERLAPPING,
-    NON_OVERLAPPING
-  } implication_kind_e;
-
   // XXX WORKAROUND Can't select parameter using '-chparam' in SBY file
-  parameter implication_kind = `IMPLICATION_KIND;
-
-
-  typedef enum {
-    CONCURRENT,
-    IMMEDIATE
-  } assert_kind_e;
+  parameter enum { OVERLAPPING, NON_OVERLAPPING } implication_kind = `IMPLICATION_KIND;
 
   // XXX WORKAROUND Can't select 'assert_kind' using '-chparam'. The tool complains that it
   // can't parse an enum literal value. I tried using all sorts of quotes, but couldn't get
   // it to work.
-  parameter assert_kind = `ASSERT_KIND;
+  parameter enum { CONCURRENT, IMMEDIATE } assert_kind = `ASSERT_KIND;
 
 
   default clocking @(posedge clk);
@@ -54,13 +43,12 @@ module implication(input bit clk);
 
     if (assert_kind == IMMEDIATE) begin: immediate
 
-      typedef enum {
-        BUGGY,
-        CORRECT
-      } modeling_kind_e;
+`ifndef MODELING_KIND
+`define MODELING_KIND BUGGY
+`endif
 
       // XXX WORKAROUND Can't select parameter using '-chparam' in SBY file
-      parameter modeling_kind = `MODELING_KIND;
+      parameter enum { BUGGY, CORRECT } modeling_kind = `MODELING_KIND;
 
       if (modeling_kind == BUGGY) begin: buggy
 
