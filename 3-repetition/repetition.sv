@@ -7,6 +7,14 @@ module repetition(input bit clk);
 
   parameter enum { CONSECUTIVE, GOTO } repetition_kind = `REPETITION_KIND;
 
+
+  parameter bit multiple_repetitions = 0;
+
+`ifdef MULTIPLE_REPETITIONS
+    defparam multiple_repetitions = 1;
+`endif
+
+
   if (repetition_kind == CONSECUTIVE) begin: consecutive
     localparam enum { CONCURRENT, IMMEDIATE } assert_kind = CONCURRENT;
 
@@ -49,8 +57,16 @@ module repetition(input bit clk);
 
     bit b;
 
-    a_then_b: cover property (a ##1 b [->1]);
-    a_then_two_times_b: cover property (a ##1 b [->2]);
+    if (!multiple_repetitions) begin: single_rep
+
+      a_then_b: cover property (a ##1 b [->1]);
+
+    end
+    else begin: multiple_reps
+
+      a_then_two_times_b: cover property (a ##1 b [->2]);
+
+    end
 
     // Add some delay between signals to make the traces more interesting
     delay_between_a_and_b: assume property (a |-> !b [*4]);
