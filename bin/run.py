@@ -13,7 +13,7 @@ TASKS = subprocess.check_output(
             ['sby', str(SBY_FILE), '--dumptasks'],
             universal_newlines=True).split()
 
-@click.group(context_settings=dict(help_option_names=['-h', '--help']))
+@click.group(context_settings=dict(help_option_names=['-h', '--help']), chain=True)
 @click.option('--task', '-t', required=True, type=click.Choice(TASKS))
 @click.pass_context
 def cli(ctx, task):
