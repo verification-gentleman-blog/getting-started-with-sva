@@ -5,3 +5,5 @@
 *.pdf
 
 .dvt/*.build.auto.*
+
+venv/*
