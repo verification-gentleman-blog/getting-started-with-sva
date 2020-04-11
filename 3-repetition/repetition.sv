@@ -5,23 +5,23 @@ module repetition(input bit clk);
   default clocking @(posedge clk);
   endclocking
 
+
   parameter enum { CONSECUTIVE, GOTO } repetition_kind = `REPETITION_KIND;
 
+  // Can't declare inside 'consecutive' block, as it will be treated as a
+  // localparam, which can't be set via 'defparam'
+  parameter enum { CONCURRENT, IMMEDIATE } assert_kind = CONCURRENT;
+`ifdef ASSERT_KIND
+    defparam assert_kind = `ASSERT_KIND;
+`endif
 
   parameter bit multiple_repetitions = 0;
-
 `ifdef MULTIPLE_REPETITIONS
     defparam multiple_repetitions = 1;
 `endif
 
 
   if (repetition_kind == CONSECUTIVE) begin: consecutive
-    localparam enum { CONCURRENT, IMMEDIATE } assert_kind = CONCURRENT;
-
-`ifdef ASSERT_KIND
-    defparam assert_kind = `ASSERT_KIND;
-`endif
-
     if (assert_kind == CONCURRENT) begin: concurrent
 
       five_times_a: cover property (a [*5]);
