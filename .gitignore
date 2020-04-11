@@ -1,4 +1,7 @@
+*.log
 *.*~
 
 *.~lock.*.odp#
 *.pdf
+
+.dvt/*.build.auto.*
