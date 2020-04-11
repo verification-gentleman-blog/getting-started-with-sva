@@ -6,3 +6,8 @@ Top 5:
 4. throughout
 5. named properties and sequences
 6. sequence.triggered
+
+
+The code isn't written to be reader friendly. Its main goal is to be run in
+SBY and generate traces. One (cover) property per run makes it easier to open
+traces in GTKWave, because the trace is always 'trace0.vcd'.
