@@ -1,0 +1,22 @@
+[tasks]
+antecedent
+consequent
+consequent_a_after_c consequent a_after_c
+
+[options]
+mode prove
+
+[engines]
+smtbmc
+
+[script]
+antecedent: read -define DELAY_LOCATION=ANTECEDENT
+consequent: read -define DELAY_LOCATION=CONSEQUENT
+a_after_c: read -define A_AFTER_C
+
+read -verific
+read -formal delay_in_asserts.sv
+prep -top delay_in_asserts
+
+[files]
+delay_in_asserts.sv

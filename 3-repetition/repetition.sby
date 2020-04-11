@@ -1,3 +1,9 @@
+[tasks]
+consecutive_concurrent consecutive concurrent
+consecutive_immediate consecutive immediate
+goto_single_rep goto
+goto_multi_rep goto multi_rep
+
 [options]
 mode cover
 
@@ -5,6 +11,12 @@ mode cover
 smtbmc
 
 [script]
+consecutive: read -define REPETITION_KIND=CONSECUTIVE
+goto: read -define REPETITION_KIND=GOTO
+concurrent: read -define ASSERT_KIND=CONCURRENT
+immediate: read -define ASSERT_KIND=IMMEDIATE
+multi_rep: read -define MULTIPLE_REPETITIONS
+
 read -verific
 read -formal repetition.sv
 prep -top repetition
