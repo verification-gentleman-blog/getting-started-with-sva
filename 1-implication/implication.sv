@@ -43,13 +43,12 @@ module implication(input bit clk);
 
     if (assert_kind == IMMEDIATE) begin: immediate
 
-      typedef enum {
-        BUGGY,
-        CORRECT
-      } modeling_kind_e;
+`ifndef MODELING_KIND
+`define MODELING_KIND BUGGY
+`endif
 
       // XXX WORKAROUND Can't select parameter using '-chparam' in SBY file
-      parameter modeling_kind = `MODELING_KIND;
+      parameter enum { BUGGY, CORRECT } modeling_kind = `MODELING_KIND;
 
       if (modeling_kind == BUGGY) begin: buggy
 
