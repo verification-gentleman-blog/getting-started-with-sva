@@ -1,6 +1,7 @@
 [tasks]
-concurrent
-immediate
+consecutive_concurrent consecutive concurrent
+consecutive_immediate consecutive immediate
+goto
 
 [options]
 mode cover
@@ -9,6 +10,8 @@ mode cover
 smtbmc
 
 [script]
+consecutive: read -define REPETITION_KIND=CONSECUTIVE
+goto: read -define REPETITION_KIND=GOTO
 concurrent: read -define ASSERT_KIND=CONCURRENT
 immediate: read -define ASSERT_KIND=IMMEDIATE
 
