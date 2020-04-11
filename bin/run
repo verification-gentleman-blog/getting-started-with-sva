@@ -4,9 +4,17 @@ import argparse
 import pathlib
 import subprocess
 
+sby_files = list(pathlib.Path.cwd().glob('*.sby'))
+assert len(sby_files) == 1, 'expected a single sby file in this directory'
+
+SBY_FILE = sby_files[0]
+TASKS = subprocess.check_output(
+            ['sby', str(SBY_FILE), '--dumptasks'],
+            universal_newlines=True).split()
+
 def get_parser():
     parser = argparse.ArgumentParser()
-    parser.add_argument('-t', '--task', required=True)
+    parser.add_argument('-t', '--task', required=True, choices=TASKS)
     subparsers = parser.add_subparsers()
     sby_parser = subparsers.add_parser('sby')
     sby_parser.set_defaults(func=sby)
