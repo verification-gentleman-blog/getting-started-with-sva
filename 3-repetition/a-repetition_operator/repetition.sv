@@ -15,11 +15,6 @@ module repetition(input bit clk);
     defparam assert_kind = `ASSERT_KIND;
 `endif
 
-  parameter bit multiple_repetitions = 0;
-`ifdef MULTIPLE_REPETITIONS
-    defparam multiple_repetitions = 1;
-`endif
-
 
   if (repetition_kind == CONSECUTIVE) begin: consecutive
     if (assert_kind == CONCURRENT) begin: concurrent
@@ -54,6 +49,14 @@ module repetition(input bit clk);
     end
   end
   if (repetition_kind == GOTO) begin: goto
+
+`ifdef MULTIPLE_REPETITIONS
+`define MULTIPLE_REPETITIONS_VAL 1
+`else
+`define MULTIPLE_REPETITIONS_VAL 0
+`endif
+
+    parameter bit multiple_repetitions = `MULTIPLE_REPETITIONS_VAL;
 
     bit b;
 
