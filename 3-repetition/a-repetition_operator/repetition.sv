@@ -37,13 +37,13 @@ module repetition(input bit clk);
         cover (match);
 
       // Needed to initialize counter
-      bit init = 1;
+      bit first_cycle = 1;
+      always @(posedge clk)
+        first_cycle <= 0;
 
-      always @(posedge clk) begin
-        if (init)
+      always @(posedge clk)
+        if (first_cycle)
           assume (counter == 0);
-        init <= 0;
-      end
 
     end
   end
