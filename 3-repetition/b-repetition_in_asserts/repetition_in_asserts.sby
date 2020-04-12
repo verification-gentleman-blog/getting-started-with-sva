@@ -1,0 +1,20 @@
+[tasks]
+consecutive
+goto
+
+[options]
+mode prove
+
+[engines]
+smtbmc
+
+[script]
+consecutive: read -define REPETITION_KIND=CONSECUTIVE
+goto: read -define REPETITION_KIND=GOTO
+
+read -verific
+read -formal repetition_in_asserts.sv
+prep -top repetition_in_asserts
+
+[files]
+repetition_in_asserts.sv
