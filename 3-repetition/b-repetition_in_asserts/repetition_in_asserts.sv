@@ -19,6 +19,16 @@ module repetition_in_asserts(input bit clk);
 
   end
   if (repetition_kind == GOTO) begin: goto
+
+    bit req;
+    bit grant;
+    bit busy;
+
+    assert property (req ##1 grant [->1] |=> busy);
+
+    // Make the traces more interesting
+    assume property (req |-> !grant [*3]);
+
   end
 
 endmodule
