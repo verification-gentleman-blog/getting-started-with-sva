@@ -1,0 +1,16 @@
+[tasks]
+concurrent
+
+[options]
+mode prove
+
+[engines]
+smtbmc
+
+[script]
+read -verific
+read -formal throughout_in_asserts.sv
+prep -top throughout_in_asserts
+
+[files]
+throughout_in_asserts.sv

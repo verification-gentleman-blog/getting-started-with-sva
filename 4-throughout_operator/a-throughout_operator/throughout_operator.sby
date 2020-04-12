@@ -1,3 +1,6 @@
+[tasks]
+concurrent
+
 [options]
 mode cover
 
