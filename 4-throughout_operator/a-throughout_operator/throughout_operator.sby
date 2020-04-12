@@ -1,0 +1,16 @@
+[tasks]
+concurrent
+
+[options]
+mode cover
+
+[engines]
+smtbmc
+
+[script]
+read -verific
+read -formal throughout_operator.sv
+prep -top throughout_operator
+
+[files]
+throughout_operator.sv
