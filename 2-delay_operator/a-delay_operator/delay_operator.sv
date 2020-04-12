@@ -48,13 +48,13 @@ module delay_operator(input bit clk);
         cover (match);
 
 
-      bit init = 1;
+      bit first_cycle = 1;
+      always @(posedge clk)
+        first_cycle <= 0;
 
-      always @(posedge clk) begin
-        if (init)
+      always @(posedge clk)
+        if (first_cycle)
           assume (state == IDLE);
-        init <= 0;
-      end
 
     end
   end
@@ -99,13 +99,13 @@ module delay_operator(input bit clk);
         cover (match);
 
 
-      bit init = 1;
+      bit first_cycle = 1;
+      always @(posedge clk)
+        first_cycle <= 0;
 
-      always @(posedge clk) begin
-        if (init)
+      always @(posedge clk)
+        if (first_cycle)
           assume (state == IDLE);
-        init <= 0;
-      end
 
     end
   end
