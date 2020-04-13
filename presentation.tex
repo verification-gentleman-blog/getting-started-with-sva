@@ -62,12 +62,14 @@ assert property (req \&\& !busy |-> grant);
 \end{frame}
 
 
-\begin{frame}{Implication}
-Overlapping
+\begin{frame}[fragile]{Implication}
+Overlapping implication using immediate assert:
 
-\begin{itemize}
- \item TODO Add code for immediate
-\end{itemize}
+\begin{semiverbatim}
+always @(posedge clk)
+  if (antecedent)
+    assert (consequent);
+\end{semiverbatim}
 \end{frame}
 
 
