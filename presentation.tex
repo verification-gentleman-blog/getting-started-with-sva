@@ -93,12 +93,36 @@ assert property (req \&\& grant |=> busy);
 \end{frame}
 
 
-\begin{frame}{Implication}
-Non-overlapping
+\begin{frame}[fragile]{Implication}
+Non-overlapping using immediate assert:
 
-\begin{itemize}
- \item TODO Add code for immediate
-\end{itemize}
+\begin{semiverbatim}
+always @(posedge clk)
+  if (\$past(antecedent))
+    assert (consequent);
+\end{semiverbatim}
+
+\pause
+\begin{alertblock}{Gotcha}
+\$past(...) can be either 0 or 1 in the very first cycle \textrightarrow{} false negative
+\end{alertblock}
+\end{frame}
+
+
+\begin{frame}[fragile]{Implication}
+Non-overlapping using immediate assert (corrected):
+
+\begin{semiverbatim}
+always @(posedge clk)
+  if (past_valid \&\& \$past(antecedent))
+    assert (consequent);
+\end{semiverbatim}
+
+\begin{semiverbatim}
+bit past_valid = 0;
+always @(posedge clk)
+  past_valid <= 1;
+\end{semiverbatim}
 \end{frame}
 
 
