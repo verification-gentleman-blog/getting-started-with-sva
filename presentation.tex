@@ -74,11 +74,22 @@ always @(posedge clk)
 
 
 \begin{frame}{Implication}
-Non-overlapping
+Non-overlapping implication:
+
+\begin{semiverbatim}
+antecedent |=> consequent
+\end{semiverbatim}
 
 \begin{itemize}
- \item TODO Add code for concurrent
+ \item If antecedent is 1, then in the next cycle consequent must be 1 as well
+ \item If antecedent is 0, then consequent can have any value
 \end{itemize}
+
+\pause
+Start working on granted requests:
+\begin{semiverbatim}
+assert property (req \&\& grant |=> busy);
+\end{semiverbatim}
 \end{frame}
 
 
