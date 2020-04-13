@@ -13,6 +13,11 @@ SBY and generate traces. One (cover) property per run makes it easier to open
 traces in GTKWave, because the trace is always 'trace0.vcd'.
 
 
+To shorten the prompt (because of long directory names):
+
+    export PROMPT_DIRTRIM=1
+
+
 To set up run script:
 
 1. Create a virtual env:
