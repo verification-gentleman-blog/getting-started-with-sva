@@ -37,11 +37,28 @@ SystemVerilog assertions (SVAs) express temporal behavior
 
 
 \begin{frame}{Implication}
-Overlapping
+Overlapping implication:
+
+\begin{semiverbatim}
+antecedent |-> consequent
+\end{semiverbatim}
 
 \begin{itemize}
- \item TODO Add code for concurrent
+ \item If antecedent is 1, then consequent must be 1 as well
+ \item If antecedent is 0, then consequent can have any value
 \end{itemize}
+
+\pause
+Don't grant any requests while busy:
+\begin{semiverbatim}
+assert property (busy |-> !grant);
+\end{semiverbatim}
+
+\pause
+New request while not busy is granted immediately:
+\begin{semiverbatim}
+assert property (req \&\& !busy |-> grant);
+\end{semiverbatim}
 \end{frame}
 
 
