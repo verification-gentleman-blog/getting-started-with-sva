@@ -318,12 +318,12 @@ a throughout b [->3]
 \end{frame}
 
 
-\begin{frame}{Throughout}
-Discussion
-\begin{itemize}
- \item TODO Add code for throughout as assume (No pipelining)
- \item TODO Add code for throughout as assert (No ready during first 5 cycles of operation)
-\end{itemize}
+\begin{frame}[fragile]{Throughout}
+While waiting for a grant for an issued request, no new requests shall be issued:
+
+\begin{semiverbatim}
+assert property (req |=> !req throughout grant [->1]);
+\end{semiverbatim}
 \end{frame}
 
 
