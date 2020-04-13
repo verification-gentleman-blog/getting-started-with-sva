@@ -258,11 +258,35 @@ always @(posedge clk)
 \end{frame}
 
 
-\begin{frame}{Repetition}
-Goto
+\begin{frame}[fragile]{Repetition}
+Goto repetition:
+
+\begin{semiverbatim}
+a ##1 b [->1]
+\end{semiverbatim}
 
 \begin{itemize}
- \item TODO Add code for concurrent
+ \item a is 1 in the 1st and b is high in any future cycle from cycle 2 onward
+\end{itemize}
+
+\begin{block}{Note}
+a \#\#1 is not part of the goto repetition definition, but it makes the explanation easier.
+\end{block}
+\end{frame}
+
+
+\begin{frame}[fragile]{Repetition}
+Goto repetition using immediate cover:
+
+\begin{itemize}
+ \item haven't tried it out
+ \item some kind of counter with b as an enable?
+\end{itemize}
+
+\pause
+Modeling using RTL becomes more and more complicated
+\begin{itemize}
+ \item worth it?
 \end{itemize}
 \end{frame}
 
