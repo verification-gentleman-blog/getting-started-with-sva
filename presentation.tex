@@ -228,20 +228,33 @@ assign match = (state == WAIT2) && b;
 
 
 \begin{frame}{Repetition}
-Consecutive
+Consecutive repetition:
+
+\begin{semiverbatim}
+a [*5]
+\end{semiverbatim}
 
 \begin{itemize}
- \item TODO Add code for concurrent
+ \item a is 1 in the 1st, 2nd, 3rd, 4th and 5th cycles
 \end{itemize}
 \end{frame}
 
 
-\begin{frame}{Repetition}
-Consecutive
+\begin{frame}[fragile]{Repetition}
+Consecutive repetition (5 times) using immediate cover:
 
-\begin{itemize}
- \item TODO Add code for immediate
-\end{itemize}
+\begin{semiverbatim}
+int unsigned counter;
+
+always_ff @(posedge clk)
+  if (a && counter < 5-1) counter++;
+  else counter = 0;
+
+assign match = (counter == 5-1 && a);
+
+always @(posedge clk)
+  cover (match);
+\end{semiverbatim}
 \end{frame}
 
 
