@@ -327,24 +327,36 @@ assert property (req |=> !req throughout grant [->1]);
 \end{frame}
 
 
-\begin{frame}{Named properties and sequences}
-TODO Add notes about reuse
+\begin{frame}[fragile]{Named properties and sequences}
+Might want to check the same property for different sets of signals:
+
+\begin{semiverbatim}
+property some_property(bit a, bit b, bit c, bit d);
+  a ##1 b [*2] ##1 c [*3] |-> d;
+endproperty
+
+assert property (some_property(a0, b0, c0, d0));
+assert property (some_property(a1, b1, c1, d1));
+\end{semiverbatim}
+
+Using named properties avoids duplication.
 \end{frame}
 
 
-\begin{frame}{Named properties and sequences}
-Named property
-\begin{itemize}
- \item TODO Add code
-\end{itemize}
-\end{frame}
+\begin{frame}[fragile]{Named properties and sequences}
+Might have the same sequence of signal behavior that is interesting for multiple properties:
 
+\begin{semiverbatim}
+sequence antecedent(bit a, bit b, bit c);
+  a ##1 b [*2] ##1 c [*3];
+endsequence
 
-\begin{frame}{Named properties and sequences}
-Named sequence
-\begin{itemize}
- \item TODO Add code
-\end{itemize}
+assert property (antecedent(a2, b2, c2) |-> d2);
+assert property (antecedent(a2, b2, c2) |-> !e2);
+assert property (antecedent(a2, b2, c2) |-> f2 ##1 g2);
+\end{semiverbatim}
+
+Using named sequences avoids duplication.
 \end{frame}
 
 
