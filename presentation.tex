@@ -1,0 +1,242 @@
+\documentclass{beamer}
+\usepackage{textcomp}
+
+\usetheme{Warsaw}
+\title{Getting started with SystemVerilog Assertions}
+\author{Tudor Timi}
+\institute{VerificationGentleman.com}
+\date{April 15, 2020}
+\begin{document}
+
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+
+\begin{frame}{Introduction}
+SystemVerilog assertions (SVAs) express temporal behavior
+
+\begin{itemize}
+ \item Compact
+ \item Similar to regular expressions
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Top 6 essential SVA features}
+\begin{itemize}
+ \item Implication operator
+ \item Delay operation
+ \item Repetition operator
+ \item Throughout operator
+ \item Named properties and sequences
+ \item Sequence.triggered
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Implication}
+Overlapping
+
+\begin{itemize}
+ \item TODO Add code for concurrent
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Implication}
+Overlapping
+
+\begin{itemize}
+ \item TODO Add code for immediate
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Implication}
+Non-overlapping
+
+\begin{itemize}
+ \item TODO Add code for concurrent
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Implication}
+Non-overlapping
+
+\begin{itemize}
+ \item TODO Add code for immediate
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Delay}
+One cycle
+
+\begin{itemize}
+ \item TODO Add code for concurrent
+\end{itemize}
+
+Mutliple cycles
+\begin{itemize}
+ \item TODO Add code for concurrent
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Delay}
+One cycle - immediate
+
+\begin{itemize}
+ \item TODO Add code for immediate
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Delay}
+Three cycles - immediate
+
+\begin{itemize}
+ \item TODO Add code for immediate
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Delay}
+Non-overlapping implication revisited
+
+\begin{itemize}
+ \item TODO Add code for non-overlapping made from overlapping and delay
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Repetition}
+Consecutive
+
+\begin{itemize}
+ \item TODO Add code for concurrent
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Repetition}
+Consecutive
+
+\begin{itemize}
+ \item TODO Add code for immediate
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Repetition}
+Goto
+
+\begin{itemize}
+ \item TODO Add code for goto using consecutive repetition
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Repetition}
+Goto
+
+\begin{itemize}
+ \item TODO Add code for concurrent
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Throughout}
+\begin{itemize}
+ \item TODO Add code for throughout using consecutive repetition
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Throughout}
+\begin{itemize}
+ \item TODO Add code for concurrent
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Throughout}
+Discussion
+\begin{itemize}
+ \item TODO Add code for throughout as assume (No pipelining)
+ \item TODO Add code for throughout as assert (No ready during first 5 cycles of operation)
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Named properties and sequences}
+TODO Add notes about reuse
+\end{frame}
+
+
+\begin{frame}{Named properties and sequences}
+Named property
+\begin{itemize}
+ \item TODO Add code
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Named properties and sequences}
+Named sequence
+\begin{itemize}
+ \item TODO Add code
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Sequence.triggered}
+\begin{itemize}
+ \item TODO Add code
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Tips and tricks}
+Split long sequences
+
+\begin{itemize}
+ \item Functions calling functions \textrightarrow{} sequences composed of sequences
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Tips and tricks}
+Mulitple smaller assertions instead of one big assertion
+
+\begin{itemize}
+ \item Easier to write/read
+ \item Easier to debug
+ \item More difficult to reason about (all requirements?)
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Tips and tricks}
+Check that properties work as expected
+
+\begin{itemize}
+ \item SVUnit
+ \item Dream: test using SymbiYosys
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Tips and tricks}
+Think about cause, not just effect
+
+\begin{itemize}
+ \item TODO Add code for implication in both directions
+\end{itemize}
+\end{frame}
+
+
+\end{document}
