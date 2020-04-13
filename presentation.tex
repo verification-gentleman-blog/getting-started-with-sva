@@ -175,21 +175,55 @@ assert property (c |=> a \#\#1 b);
 \end{frame}
 
 
-\begin{frame}{Delay}
-One cycle - immediate
+\begin{frame}[fragile]{Delay}
+One cycle delay using RTL modeling:
 
-\begin{itemize}
- \item TODO Add code for immediate
-\end{itemize}
+\begin{semiverbatim}
+enum \{ IDLE, A_SEEN, END \} state, next_state;
+bit match;
+
+always_comb begin
+  next_state = state;
+  case (state)
+    IDLE: if (a) next_state = A_SEEN;
+    A_SEEN: next_state = END;
+  endcase
+end
+
+assign match = (state == A_SEEN) && b;
+\end{semiverbatim}
+
+\pause
+\begin{alertblock}{Gotcha}
+Not equivalent to SVA. Doesn't start a new attempt on each cycle.
+\end{alertblock}
 \end{frame}
 
 
-\begin{frame}{Delay}
-Three cycles - immediate
+\begin{frame}{Modeling SVA sequences using RTL}
+It's more difficult than it appears at first glance. A great resource on the topic is this post:
+\url{https://tomverbeure.github.io/rtl/2019/01/04/Under-the-Hood-of-Formal-Verification.html}
+\end{frame}
 
-\begin{itemize}
- \item TODO Add code for immediate
-\end{itemize}
+
+\begin{frame}[fragile]{Delay}
+Delay of three cycles using naive RTL modeling:
+
+\begin{semiverbatim}
+enum \{ IDLE, A_SEEN, WAIT1, WAIT2, END \} state, ...;
+
+always_comb begin
+  next_state = state;
+  case (state)
+    IDLE: if (a) next_state = A_SEEN;
+    A_SEEN: next_state = WAIT1;
+    WAIT1: next_state = WAIT2;
+    WAIT2: next_state = END;
+  endcase
+end
+
+assign match = (state == WAIT2) && b;
+\end{semiverbatim}
 \end{frame}
 
 
