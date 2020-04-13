@@ -127,16 +127,51 @@ always @(posedge clk)
 
 
 \begin{frame}{Delay}
-One cycle
+One cycle delay:
+
+\begin{semiverbatim}
+a \#\#1 b
+\end{semiverbatim}
 
 \begin{itemize}
- \item TODO Add code for concurrent
+ \item a is 1 in the 1st cycle and b is also 1 in the 2nd cycle
 \end{itemize}
 
-Mutliple cycles
+\pause
+Delay of multiple cycles:
+
+\begin{semiverbatim}
+a \#\#3 b
+\end{semiverbatim}
+
 \begin{itemize}
- \item TODO Add code for concurrent
+ \item a is 1 in the 1st cycle and b is also 1 in the 4th cycle
 \end{itemize}
+\end{frame}
+
+
+\begin{frame}{Delay}
+
+Delay in antecedent:
+\begin{semiverbatim}
+assert property (a \#\#1 b |=> c);
+\end{semiverbatim}
+
+\begin{itemize}
+ \item If a is 1 in the 1st cycle and b is 1 in the 2nd cycle, then c must be 1 in the 3rd cycle
+\end{itemize}
+
+\pause
+
+Delay in consequent:
+\begin{semiverbatim}
+assert property (c |=> a \#\#1 b);
+\end{semiverbatim}
+
+\begin{itemize}
+ \item If c is 1 in the 1st cycle, then a must be 1 in the 2nd cycle and a must be 1 in the 3rd cycle
+\end{itemize}
+
 \end{frame}
 
 
