@@ -291,6 +291,22 @@ Modeling using RTL becomes more and more complicated
 \end{frame}
 
 
+\begin{frame}[fragile]{Repetition}
+After starting, an operation takes 5 cycles:
+
+\begin{semiverbatim}
+assert property (start |=> busy [*5]);
+\end{semiverbatim}
+
+\pause
+The device starts operation after eventually granting a request:
+
+\begin{semiverbatim}
+assert property (req ##1 grant [->1] |=> busy);
+\end{semiverbatim}
+\end{frame}
+
+
 \begin{frame}{Throughout}
 \begin{itemize}
  \item TODO Add code for concurrent
