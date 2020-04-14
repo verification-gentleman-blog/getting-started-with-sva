@@ -66,4 +66,20 @@ a ##1 (1 [*2]) ##1 b
 \end{frame}
 
 
+\begin{frame}[fragile]{Goto repetition revisited}
+Goto repetition can be built from single cycle delay and consecutive repetition:
+
+\pause
+\begin{semiverbatim}
+// a [->3]
+(!a [*0:\$] ##1 a) [*3]
+\end{semiverbatim}
+
+\pause
+\begin{semiverbatim}
+(!a [*] ##1 a) [*3]
+\end{semiverbatim}
+\end{frame}
+
+
 \end{document}
