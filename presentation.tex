@@ -3,7 +3,7 @@
 
 \usetheme{Warsaw}
 \title{Getting started with SystemVerilog Assertions}
-\author{Tudor Timi}
+\author{Tudor Timisescu}
 \institute{VerificationGentleman.com}
 \date{April 15, 2020}
 \begin{document}
@@ -16,225 +16,440 @@
 
 \begin{frame}{Introduction}
 SystemVerilog assertions (SVAs) express temporal behavior
-
 \begin{itemize}
  \item Compact
  \item Similar to regular expressions
 \end{itemize}
+\vspace{\baselineskip}
+
+\pause
+This talk won't be a comprehensive SVA tutorial
 \end{frame}
 
 
-\begin{frame}{Top 6 essential SVA features}
+\begin{frame}{Top 5 essential SVA features}
 \begin{itemize}
  \item Implication operator
  \item Delay operation
  \item Repetition operator
  \item Throughout operator
  \item Named properties and sequences
- \item Sequence.triggered
 \end{itemize}
 \end{frame}
 
 
 \begin{frame}{Implication}
-Overlapping
+Overlapping implication:
+
+\begin{semiverbatim}
+antecedent |-> consequent
+\end{semiverbatim}
 
 \begin{itemize}
- \item TODO Add code for concurrent
+ \item If antecedent is 1, then consequent must be 1 as well
+ \item If antecedent is 0, then consequent can have any value
 \end{itemize}
+
+\pause
+Don't grant any requests while busy:
+\begin{semiverbatim}
+assert property (busy |-> !grant);
+\end{semiverbatim}
+
+\pause
+New request while not busy is granted immediately:
+\begin{semiverbatim}
+assert property (req \&\& !busy |-> grant);
+\end{semiverbatim}
+\end{frame}
+
+
+\begin{frame}[fragile]{Implication}
+Overlapping implication using immediate assert:
+
+\begin{semiverbatim}
+always @(posedge clk)
+  if (antecedent)
+    assert (consequent);
+\end{semiverbatim}
 \end{frame}
 
 
 \begin{frame}{Implication}
-Overlapping
+Non-overlapping implication:
+
+\begin{semiverbatim}
+antecedent |=> consequent
+\end{semiverbatim}
 
 \begin{itemize}
- \item TODO Add code for immediate
+ \item If antecedent is 1, then in the next cycle consequent must be 1 as well
+ \item If antecedent is 0, then consequent can have any value
 \end{itemize}
+
+\pause
+Start working on granted requests:
+\begin{semiverbatim}
+assert property (req \&\& grant |=> busy);
+\end{semiverbatim}
 \end{frame}
 
 
-\begin{frame}{Implication}
-Non-overlapping
+\begin{frame}[fragile]{Implication}
+Non-overlapping using immediate assert:
 
-\begin{itemize}
- \item TODO Add code for concurrent
-\end{itemize}
+\begin{semiverbatim}
+always @(posedge clk)
+  if (\$past(antecedent))
+    assert (consequent);
+\end{semiverbatim}
+
+\pause
+\begin{alertblock}{Gotcha}
+\$past(...) can be either 0 or 1 in the very first cycle \textrightarrow{} false negative
+\end{alertblock}
 \end{frame}
 
 
-\begin{frame}{Implication}
-Non-overlapping
+\begin{frame}[fragile]{Implication}
+Non-overlapping using immediate assert (corrected):
+
+\begin{semiverbatim}
+always @(posedge clk)
+  if (past_valid \&\& \$past(antecedent))
+    assert (consequent);
+\end{semiverbatim}
+
+\begin{semiverbatim}
+bit past_valid = 0;
+always @(posedge clk)
+  past_valid <= 1;
+\end{semiverbatim}
+\end{frame}
+
+
+\begin{frame}{Delay}
+One cycle delay:
+
+\begin{semiverbatim}
+a \#\#1 b
+\end{semiverbatim}
 
 \begin{itemize}
- \item TODO Add code for immediate
+ \item a is 1 in the 1st cycle and b is also 1 in the 2nd cycle
+\end{itemize}
+
+\pause
+Delay of multiple cycles:
+
+\begin{semiverbatim}
+a \#\#3 b
+\end{semiverbatim}
+
+\begin{itemize}
+ \item a is 1 in the 1st cycle and b is also 1 in the 4th cycle
 \end{itemize}
 \end{frame}
 
 
 \begin{frame}{Delay}
-One cycle
+
+Delay in antecedent:
+\begin{semiverbatim}
+assert property (a \#\#1 b |=> c);
+\end{semiverbatim}
 
 \begin{itemize}
- \item TODO Add code for concurrent
+ \item If a is 1 in the 1st cycle and b is 1 in the 2nd cycle, then c must be 1 in the 3rd cycle
 \end{itemize}
 
-Mutliple cycles
+\pause
+
+Delay in consequent:
+\begin{semiverbatim}
+assert property (c |=> a \#\#1 b);
+\end{semiverbatim}
+
 \begin{itemize}
- \item TODO Add code for concurrent
+ \item If c is 1 in the 1st cycle, then a must be 1 in the 2nd cycle and a must be 1 in the 3rd cycle
 \end{itemize}
+
 \end{frame}
 
 
-\begin{frame}{Delay}
-One cycle - immediate
+\begin{frame}[fragile]{Delay}
+One cycle delay using RTL modeling:
 
-\begin{itemize}
- \item TODO Add code for immediate
-\end{itemize}
+\begin{semiverbatim}
+enum \{ IDLE, A_SEEN, END \} state, next_state;
+bit match;
+
+always_comb begin
+  next_state = state;
+  case (state)
+    IDLE: if (a) next_state = A_SEEN;
+    A_SEEN: next_state = END;
+  endcase
+end
+
+assign match = (state == A_SEEN) && b;
+\end{semiverbatim}
+
+\pause
+\begin{alertblock}{Gotcha}
+Not equivalent to SVA. Doesn't start a new attempt on each cycle.
+\end{alertblock}
 \end{frame}
 
 
-\begin{frame}{Delay}
-Three cycles - immediate
-
-\begin{itemize}
- \item TODO Add code for immediate
-\end{itemize}
+\begin{frame}{Modeling SVA sequences using RTL}
+It's more difficult than it appears at first glance. A great resource on the topic is this post:
+\url{https://tomverbeure.github.io/rtl/2019/01/04/Under-the-Hood-of-Formal-Verification.html}
 \end{frame}
 
 
-\begin{frame}{Delay}
-Non-overlapping implication revisited
+\begin{frame}[fragile]{Delay}
+Delay of three cycles using naive RTL modeling:
 
-\begin{itemize}
- \item TODO Add code for non-overlapping made from overlapping and delay
-\end{itemize}
+\begin{semiverbatim}
+enum \{ IDLE, A_SEEN, WAIT1, WAIT2, END \} state, ...;
+
+always_comb begin
+  next_state = state;
+  case (state)
+    IDLE: if (a) next_state = A_SEEN;
+    A_SEEN: next_state = WAIT1;
+    WAIT1: next_state = WAIT2;
+    WAIT2: next_state = END;
+  endcase
+end
+
+assign match = (state == WAIT2) && b;
+\end{semiverbatim}
 \end{frame}
 
 
 \begin{frame}{Repetition}
-Consecutive
+Consecutive repetition:
+
+\begin{semiverbatim}
+a [*5]
+\end{semiverbatim}
 
 \begin{itemize}
- \item TODO Add code for concurrent
+ \item a is 1 in the 1st, 2nd, 3rd, 4th and 5th cycles
 \end{itemize}
 \end{frame}
 
 
-\begin{frame}{Repetition}
-Consecutive
+\begin{frame}[fragile]{Repetition}
+Consecutive repetition (5 times) using immediate cover:
+
+\begin{semiverbatim}
+int unsigned counter;
+
+always_ff @(posedge clk)
+  if (a && counter < 5-1) counter++;
+  else counter = 0;
+
+assign match = (counter == 5-1 && a);
+
+always @(posedge clk)
+  cover (match);
+\end{semiverbatim}
+\end{frame}
+
+
+\begin{frame}[fragile]{Repetition}
+Goto repetition:
+
+\begin{semiverbatim}
+a ##1 b [->1]
+\end{semiverbatim}
 
 \begin{itemize}
- \item TODO Add code for immediate
+ \item a is 1 in the 1st and b is 1 in some future cycle, starting from the 2nd cycle
+\end{itemize}
+
+\begin{block}{Note}
+a \#\#1 is not part of the goto repetition definition, but it makes the explanation easier.
+\end{block}
+\end{frame}
+
+
+\begin{frame}[fragile]{Repetition}
+Goto repetition using immediate cover:
+
+\begin{itemize}
+ \item haven't tried it out
+ \item some kind of counter with b as an enable?
+\end{itemize}
+\vspace{\baselineskip}
+
+\pause
+Modeling using RTL becomes more and more complicated
+\begin{itemize}
+ \item could build library of RTL-based SVAs
+ \item worth it?
 \end{itemize}
 \end{frame}
 
 
-\begin{frame}{Repetition}
-Goto
+\begin{frame}[fragile]{Repetition}
+After starting, an operation takes 5 cycles:
+
+\begin{semiverbatim}
+assert property (start |=> busy [*5]);
+\end{semiverbatim}
+
+\pause
+The device starts operation after eventually granting a request:
+
+\begin{semiverbatim}
+assert property (req ##1 grant [->1] |=> busy);
+\end{semiverbatim}
+\end{frame}
+
+
+\begin{frame}[fragile]{Throughout}
+\begin{semiverbatim}
+a throughout b [->3]
+\end{semiverbatim}
 
 \begin{itemize}
- \item TODO Add code for goto using consecutive repetition
+ \item a is 1 in every cycle during a sequence in which b pulses 3 times
 \end{itemize}
 \end{frame}
 
 
-\begin{frame}{Repetition}
-Goto
+\begin{frame}[fragile]{Throughout}
+While waiting for a grant for an issued request, no new requests shall be issued:
 
-\begin{itemize}
- \item TODO Add code for concurrent
-\end{itemize}
+\begin{semiverbatim}
+assert property (req |=> !req throughout grant [->1]);
+\end{semiverbatim}
 \end{frame}
 
 
-\begin{frame}{Throughout}
-\begin{itemize}
- \item TODO Add code for throughout using consecutive repetition
-\end{itemize}
+\begin{frame}[fragile]{Named properties and sequences}
+Might want to check the same property for different sets of signals:
+
+\begin{semiverbatim}
+property some_property(bit a, bit b, bit c, bit d);
+  a ##1 b [*2] ##1 c [*3] |-> d;
+endproperty
+
+assert property (some_property(a0, b0, c0, d0));
+assert property (some_property(a1, b1, c1, d1));
+\end{semiverbatim}
+
+Using named properties avoids duplication.
 \end{frame}
 
 
-\begin{frame}{Throughout}
-\begin{itemize}
- \item TODO Add code for concurrent
-\end{itemize}
-\end{frame}
+\begin{frame}[fragile]{Named properties and sequences}
+Might have the same sequence of signal behavior that is interesting for multiple properties:
 
+\begin{semiverbatim}
+sequence antecedent(bit a, bit b, bit c);
+  a ##1 b [*2] ##1 c [*3];
+endsequence
 
-\begin{frame}{Throughout}
-Discussion
-\begin{itemize}
- \item TODO Add code for throughout as assume (No pipelining)
- \item TODO Add code for throughout as assert (No ready during first 5 cycles of operation)
-\end{itemize}
-\end{frame}
+assert property (antecedent(a2, b2, c2) |-> d2);
+assert property (antecedent(a2, b2, c2) |-> !e2);
+assert property (antecedent(a2, b2, c2) |-> f2 ##1 g2);
+\end{semiverbatim}
 
-
-\begin{frame}{Named properties and sequences}
-TODO Add notes about reuse
-\end{frame}
-
-
-\begin{frame}{Named properties and sequences}
-Named property
-\begin{itemize}
- \item TODO Add code
-\end{itemize}
-\end{frame}
-
-
-\begin{frame}{Named properties and sequences}
-Named sequence
-\begin{itemize}
- \item TODO Add code
-\end{itemize}
-\end{frame}
-
-
-\begin{frame}{Sequence.triggered}
-\begin{itemize}
- \item TODO Add code
-\end{itemize}
+Using named sequences avoids duplication.
 \end{frame}
 
 
 \begin{frame}{Tips and tricks}
-Split long sequences
+Split long sequences, even if you don't plan on reusing the subsequences
 
 \begin{itemize}
+ \item Read more like natural language
+ \item Sequence names reveal intent
  \item Functions calling functions \textrightarrow{} sequences composed of sequences
 \end{itemize}
 \end{frame}
 
 
 \begin{frame}{Tips and tricks}
-Mulitple smaller assertions instead of one big assertion
+Multiple smaller assertions instead of one big assertion
 
 \begin{itemize}
  \item Easier to write/read
  \item Easier to debug
+ \item Might run faster
  \item More difficult to reason about (all requirements?)
 \end{itemize}
 \end{frame}
 
 
 \begin{frame}{Tips and tricks}
-Check that properties work as expected
+Check that properties work as expected, especially that they fail when they should
 
 \begin{itemize}
  \item SVUnit
+  \begin{itemize}
+   \item needs commercial simulator
+  \end{itemize}
  \item Dream: test using SymbiYosys
+  \begin{itemize}
+   \item given a set of constraints, expect that the proof fails
+  \end{itemize}
 \end{itemize}
 \end{frame}
 
 
-\begin{frame}{Tips and tricks}
+\begin{frame}[fragile]{Tips and tricks}
 Think about cause, not just effect
 
+\pause
 \begin{itemize}
- \item TODO Add code for implication in both directions
+ \item Causes lead to effect:
+\end{itemize}
+
+\begin{semiverbatim}
+assert property (cause0 |-> effect);
+assert property (cause1 |-> effect);
+\end{semiverbatim}
+
+\pause
+\begin{itemize}
+ \item Effect only due to causes:
+\end{itemize}
+
+\begin{semiverbatim}
+assert property (effect |-> cause0 || cause1);
+\end{semiverbatim}
+
+\end{frame}
+
+
+\begin{frame}{Resources}
+\url{https://www.doulos.com/knowhow/sysverilog/tutorial/assertions/}
+\begin{itemize}
+ \item Covers clocking, reset, bind, more operators
+\end{itemize}
+\vspace{\baselineskip}
+
+\url{https://zipcpu.com/formal/formal.html}
+\begin{itemize}
+ \item Formal verification, immediate assertions
+\end{itemize}
+\vspace{\baselineskip}
+
+\url{https://tomverbeure.github.io/rtl/2019/01/04/Under-the-Hood-of-Formal-Verification.html}
+\begin{itemize}
+ \item FSM modeling of SVAs
+\end{itemize}
+\vspace{\baselineskip}
+
+\url{https://standards.ieee.org/content/ieee-standards/en/standard/1800-2017.html}
+\begin{itemize}
+ \item Definitive resource for SVA
 \end{itemize}
 \end{frame}
 

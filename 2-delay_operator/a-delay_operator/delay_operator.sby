@@ -2,10 +2,10 @@
 single_concurrent single concurrent
 single_concurrent_a_repeats single concurrent a_repeats
 single_concurrent_b_repeats single concurrent b_repeats
-single_immediate single immediate
 multi_concurrent multi concurrent
 multi_concurrent_a_repeats multi concurrent a_repeats
 multi_concurrent_b_repeats multi concurrent b_repeats
+single_immediate single immediate
 multi_immediate multi immediate
 
 [options]
