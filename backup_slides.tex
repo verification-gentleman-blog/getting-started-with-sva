@@ -50,10 +50,19 @@ a ##1 a ##1 a
 \end{frame}
 
 
-\begin{frame}{Throughout}
-\begin{itemize}
- \item TODO Add code for throughout using consecutive repetition
-\end{itemize}
+\begin{frame}[fragile]{Multi-cycle delay re-revisited}
+Multi-cycle delay can be built from single cycle delay and repetition:
+
+\pause
+\begin{semiverbatim}
+// a ##3 b
+a ##1 1 [*2] ##1 b
+\end{semiverbatim}
+
+\pause
+\begin{semiverbatim}
+a ##1 (1 [*2]) ##1 b
+\end{semiverbatim}
 \end{frame}
 
 
