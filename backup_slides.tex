@@ -8,12 +8,23 @@
 \begin{document}
 
 
-\begin{frame}{Delay}
-Non-overlapping implication revisited
+\begin{frame}[fragile]{Non-overlapping implication revisited}
+Non-overlapping implication can be built from overlapping implication and delay:
 
-\begin{itemize}
- \item TODO Add code for non-overlapping made from overlapping and delay
-\end{itemize}
+\pause
+\begin{semiverbatim}
+antecedent ##1 1 |-> consequent
+\end{semiverbatim}
+
+\pause
+\begin{semiverbatim}
+antecedent |-> 1 ##1 consequent
+\end{semiverbatim}
+
+\pause
+\begin{semiverbatim}
+antecedent |-> ##1 consequent
+\end{semiverbatim}
 \end{frame}
 
 
