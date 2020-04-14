@@ -8,28 +8,77 @@
 \begin{document}
 
 
-\begin{frame}{Delay}
-Non-overlapping implication revisited
+\begin{frame}[fragile]{Non-overlapping implication revisited}
+Non-overlapping implication can be built from overlapping implication and delay:
 
-\begin{itemize}
- \item TODO Add code for non-overlapping made from overlapping and delay
-\end{itemize}
+\pause
+\begin{semiverbatim}
+antecedent ##1 1 |-> consequent
+\end{semiverbatim}
+
+\pause
+\begin{semiverbatim}
+antecedent |-> 1 ##1 consequent
+\end{semiverbatim}
+
+\pause
+\begin{semiverbatim}
+antecedent |-> ##1 consequent
+\end{semiverbatim}
 \end{frame}
 
 
-\begin{frame}{Repetition}
-Goto
+\begin{frame}[fragile]{Multi-cycle delay revisited}
+Multi-cycle delay can be built from single cycle delay:
 
-\begin{itemize}
- \item TODO Add code for goto using consecutive repetition
-\end{itemize}
+\pause
+\begin{semiverbatim}
+// a ##3 b
+a ##1 1 ##1 1 ##1 b
+\end{semiverbatim}
 \end{frame}
 
 
-\begin{frame}{Throughout}
-\begin{itemize}
- \item TODO Add code for throughout using consecutive repetition
-\end{itemize}
+\begin{frame}[fragile]{Consecutive repetition revisited}
+Consecutive repetition can be built from single cycle delay:
+
+\pause
+\begin{semiverbatim}
+// a [*3]
+a ##1 a ##1 a
+\end{semiverbatim}
+\end{frame}
+
+
+\begin{frame}[fragile]{Multi-cycle delay re-revisited}
+Multi-cycle delay can be built from single cycle delay and repetition:
+
+\pause
+\begin{semiverbatim}
+// a ##3 b
+a ##1 1 [*2] ##1 b
+\end{semiverbatim}
+
+\pause
+\begin{semiverbatim}
+a ##1 (1 [*2]) ##1 b
+\end{semiverbatim}
+\end{frame}
+
+
+\begin{frame}[fragile]{Goto repetition revisited}
+Goto repetition can be built from single cycle delay and consecutive repetition:
+
+\pause
+\begin{semiverbatim}
+// a [->3]
+(!a [*0:\$] ##1 a) [*3]
+\end{semiverbatim}
+
+\pause
+\begin{semiverbatim}
+(!a [*] ##1 a) [*3]
+\end{semiverbatim}
 \end{frame}
 
 
