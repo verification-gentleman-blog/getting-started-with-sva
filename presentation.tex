@@ -398,12 +398,28 @@ Check that properties work as expected, especially that they fail when they shou
 \end{frame}
 
 
-\begin{frame}{Tips and tricks}
+\begin{frame}[fragile]{Tips and tricks}
 Think about cause, not just effect
 
+\pause
 \begin{itemize}
- \item TODO Add code for implication in both directions
+ \item Causes lead to effect:
 \end{itemize}
+
+\begin{semiverbatim}
+assert property (cause0 |-> effect);
+assert property (cause1 |-> effect);
+\end{semiverbatim}
+
+\pause
+\begin{itemize}
+ \item Effect only due to causes:
+\end{itemize}
+
+\begin{semiverbatim}
+assert property (effect |-> cause0 || cause1);
+\end{semiverbatim}
+
 \end{frame}
 
 
