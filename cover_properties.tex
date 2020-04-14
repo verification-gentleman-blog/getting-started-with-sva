@@ -45,4 +45,23 @@ Most relevant for verification engineers and for designers taking over a new des
 \end{frame}
 
 
+\begin{frame}[fragile]{Cover property protips}
+\begin{block}{Protip}
+Use cover properties inside generate statements to ensure all modes are reachable
+\end{block}
+
+\begin{semiverbatim}
+// Not 100% legal SV code
+for (req_kind_e kind = kind.first();
+    kind <= kind.last(); kind++)
+begin: all_req_kinds
+  cover property (
+      req && req_kind == kind ##1 grant [->1]);
+end
+\end{semiverbatim}
+
+Emulates a covergroup sampled when the sequence matches. Covergroups could be supported by the tool
+\end{frame}
+
+
 \end{document}
