@@ -229,7 +229,7 @@ assign match = (state == WAIT2) && b;
 \end{frame}
 
 
-\begin{frame}{Repetition}
+\begin{frame}[fragile]{Repetition}
 Consecutive repetition:
 
 \begin{semiverbatim}
@@ -239,6 +239,13 @@ a [*5]
 \begin{itemize}
  \item a is 1 in the 1st, 2nd, 3rd, 4th and 5th cycles
 \end{itemize}
+
+\pause
+After starting, an operation takes 5 cycles:
+
+\begin{semiverbatim}
+assert property (start |=> busy [*5]);
+\end{semiverbatim}
 \end{frame}
 
 
@@ -274,6 +281,13 @@ a ##1 b [->1]
 \begin{block}{Note}
 a \#\#1 is not part of the goto repetition definition, but it makes the explanation easier.
 \end{block}
+
+\pause
+The device starts operation after eventually granting a request:
+
+\begin{semiverbatim}
+assert property (req ##1 grant [->1] |=> busy);
+\end{semiverbatim}
 \end{frame}
 
 
@@ -292,22 +306,6 @@ Modeling using RTL becomes more and more complicated
  \item could build library of RTL-based SVAs
  \item worth it?
 \end{itemize}
-\end{frame}
-
-
-\begin{frame}[fragile]{Repetition}
-After starting, an operation takes 5 cycles:
-
-\begin{semiverbatim}
-assert property (start |=> busy [*5]);
-\end{semiverbatim}
-
-\pause
-The device starts operation after eventually granting a request:
-
-\begin{semiverbatim}
-assert property (req ##1 grant [->1] |=> busy);
-\end{semiverbatim}
 \end{frame}
 
 
